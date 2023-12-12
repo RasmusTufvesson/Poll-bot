@@ -1,11 +1,22 @@
 import discord, json
 from discord import ui
+from os.path import isfile
 
-with open("settings.json", "r") as f:
-    settings: dict = json.load(f)
+if isfile("settings.json"):
+    with open("settings.json", "r") as f:
+        settings: dict = json.load(f)
+else:
+    settings = {"token": input("bot token: "), "guild_id": input("server id: "), "ping_role": input("role to ping: ")}
+    with open("settings.json", "w") as f:
+        json.dump(settings, f)
 
-with open("allowed_members.json", "r") as f:
-    allowed: list = json.load(f)
+if isfile("allowed_members.json"):
+    with open("allowed_members.json", "r") as f:
+        allowed: list = json.load(f)
+else:
+    allowed = [input("owner id: ")]
+    with open("allowed_members.json", "w") as f:
+        json.dump(allowed, f)
 
 bot = discord.Bot()
 
