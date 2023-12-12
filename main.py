@@ -68,6 +68,9 @@ async def tally(interaction: discord.Interaction, message: discord.Message):
             content += f"\n\n# Resultat/Result\n👍 {thumbs_up} / **👎 {thumbs_down}**"
         else:
             content += f"\n\n# Resultat/Result\n👍 {thumbs_up} / 👎 {thumbs_down}\n## Oavgjort/Tie"
+        if len(content) > 2000:
+            await interaction.response.send_message("Too many characters", ephemeral=True)
+            return
         await message.edit(content=content)
         await interaction.response.send_message("Results tallied", ephemeral=True)
     else:
