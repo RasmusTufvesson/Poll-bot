@@ -6,7 +6,7 @@ if isfile("settings.json"):
     with open("settings.json", "r") as f:
         settings: dict = json.load(f)
 else:
-    settings = {"token": input("bot token: "), "guild_id": input("server id: "), "ping_role": input("role to ping: ")}
+    settings = {"token": input("bot token: "), "guild_id": int(input("server id: ")), "ping_role": input("role to ping: ")}
     with open("settings.json", "w") as f:
         json.dump(settings, f)
 
@@ -14,7 +14,7 @@ if isfile("allowed_members.json"):
     with open("allowed_members.json", "r") as f:
         allowed: list = json.load(f)
 else:
-    allowed = [input("owner id: ")]
+    allowed = [int(input("owner id: "))]
     with open("allowed_members.json", "w") as f:
         json.dump(allowed, f)
 
@@ -90,6 +90,9 @@ async def tally(interaction: discord.Interaction, message: discord.Message):
 @bot.slash_command(name = "add_allowed", description = "Add an allowed user", guild_ids=[settings["guild_id"]])
 async def create_poll(interaction: discord.Interaction, user: discord.Member):
     if interaction.user.id in allowed:
+        if user.id in allowed:
+            await interaction.response.send_message("Already authorized", ephemeral=True)
+            return
         allowed.append(user.id)
         with open("allowed_members.json", "w") as f:
             json.dump(allowed, f)
