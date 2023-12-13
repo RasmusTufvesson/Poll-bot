@@ -1,5 +1,6 @@
 import discord, json
 from discord import ui
+from discord.commands import option
 from os.path import isfile
 
 if isfile("settings.json"):
@@ -33,6 +34,10 @@ Mönster/Pattern: {pattern}
 Förslaget av/Proposed by: {proposed_by}"""
 
 @bot.slash_command(name = "poll", description = "Do a poll", guild_ids=[settings["guild_id"]])
+@option(
+    name = "proposed_by",
+    description = "User that the poll was proposed by"
+)
 async def create_poll(ctx: discord.ApplicationContext, proposed_by: discord.Member):
     if ctx.user.id in allowed:
         await ctx.response.send_modal(CreatePollModal(proposed_by.mention, title="Create poll"))
@@ -87,8 +92,12 @@ async def tally(interaction: discord.Interaction, message: discord.Message):
     else:
         await interaction.response.send_message("Unauthorized", ephemeral=True)
 
-@bot.slash_command(name = "add_allowed", description = "Add an allowed user", guild_ids=[settings["guild_id"]])
-async def create_poll(interaction: discord.Interaction, user: discord.Member):
+@bot.slash_command(name = "authorize", description = "Add an allowed user", guild_ids=[settings["guild_id"]])
+@option(
+    name = "user",
+    description = "User to authorize"
+)
+async def add_allowed(interaction: discord.Interaction, user: discord.Member):
     if interaction.user.id in allowed:
         if user.id in allowed:
             await interaction.response.send_message("Already authorized", ephemeral=True)
