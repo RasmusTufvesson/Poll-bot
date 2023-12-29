@@ -13,4 +13,4 @@ To generate a poll simply do `/poll` and fill out the details.
 
 To tally up results right click on the poll message and then click `Apps > Tally`.
 
-Only authorized users can use these commands. To authorize another user do `/add_allowed` and then choose the user.
+Only authorized users can use these commands. To authorize another user do `/authorize` and then choose the user.
