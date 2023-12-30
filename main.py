@@ -7,7 +7,7 @@ if isfile("settings.json"):
     with open("settings.json", "r") as f:
         settings: dict = json.load(f)
 else:
-    settings = {"token": input("bot token: "), "guild_id": int(input("server id: ")), "ping_role": input("role to ping: ")}
+    settings = {"token": input("bot token: "), "guild_id": int(input("server id (eg 4496564052755865925): ")), "ping_role": input("role to ping (eg <@&2105700061047926662>): ")}
     with open("settings.json", "w") as f:
         json.dump(settings, f)
 
@@ -15,7 +15,7 @@ if isfile("allowed_members.json"):
     with open("allowed_members.json", "r") as f:
         allowed: list = json.load(f)
 else:
-    allowed = [int(input("owner id: "))]
+    allowed = [int(input("owner id (eg 364255064623578531): "))]
     with open("allowed_members.json", "w") as f:
         json.dump(allowed, f)
 
